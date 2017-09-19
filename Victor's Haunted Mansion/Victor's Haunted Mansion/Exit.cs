@@ -13,16 +13,17 @@ namespace Victor_s_Haunted_Mansion
         private string informationLocked;
         private string informationOpen;
         private string unlockItem;
-       
+        public int RoomNumber { get; private set; }
 
         
-        public Exit(string name, bool locked, string informationLocked, string informationOpen, string unlockItem)
+        public Exit(string name, int roomNumber, bool locked, string informationLocked, string informationOpen, string unlockItem)
         {
             Name = name;
             isLocked = locked;
             this.informationLocked = informationLocked;
             this.informationOpen = informationOpen;
-            this.unlockItem = unlockItem;        
+            this.unlockItem = unlockItem;
+            this.RoomNumber = roomNumber;
         }
         public void UseItemOn(Item item)
         {

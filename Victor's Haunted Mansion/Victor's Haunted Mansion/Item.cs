@@ -16,5 +16,14 @@ namespace Victor_s_Haunted_Mansion
             Name = name;
             ItemInformation = itemInformation;
         }
+        public static Item CraftItem(string item1, string item2)
+        {
+            if ((item1 == "stick" && item2 == "matches") || (item2 == "stick" && item1 == "matches"))
+            {
+                Item item = new Item("torch", "A fiercely burning torch.");
+                return item;
+            }
+            return null;
+        }
     }
 }
