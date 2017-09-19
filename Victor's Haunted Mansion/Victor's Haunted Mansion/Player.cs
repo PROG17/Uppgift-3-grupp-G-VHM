@@ -10,6 +10,7 @@ namespace Victor_s_Haunted_Mansion
     {
         List<Item> inventory = new List<Item>();
         public string Name { get; private set; }
+        public int InRoom { get; set; }
 
         public Player(string name)
         {
@@ -33,7 +34,20 @@ namespace Victor_s_Haunted_Mansion
         {
             inventory.Add(item);
         }
-        public string CombinedItems(string item1, string item2)
+
+        public Item GetItem(string itemName)
+        {
+            foreach (var item in inventory)
+            {
+                if (item.Name == itemName)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public bool CombinedItems(string item1, string item2)
         {
             if (InventoryCountainsItem(item1) && InventoryCountainsItem(item2))
             {
@@ -42,16 +56,16 @@ namespace Victor_s_Haunted_Mansion
                     DropItem(item1);
                     DropItem(item2);
                     inventory.Add(item);
-                    return "Successfully created a " + item.Name + ".";
+                    return true;
                 }
                 else
                 {
-                    return "The items could not be combined.";
+                    return false;
                 }
             }
             else
             {
-                return "The inventory does not contain both items.";
+                return false;
             }
             
         }

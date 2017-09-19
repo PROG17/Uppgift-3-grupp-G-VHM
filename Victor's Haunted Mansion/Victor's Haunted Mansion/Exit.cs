@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,12 +26,14 @@ namespace Victor_s_Haunted_Mansion
             this.unlockItem = unlockItem;
             this.RoomNumber = roomNumber;
         }
-        public void UseItemOn(Item item)
+        public bool UseItemOn(Item item)
         {
             if (unlockItem == item.Name)
             {
-                isLocked = true;
+                isLocked = false;
+                return true;
             }
+            return false;
         }
         public string GetInformation()
         {
@@ -39,6 +42,11 @@ namespace Victor_s_Haunted_Mansion
                 return informationLocked;
             }
             return informationOpen;
+        }
+
+        public bool IsLocked()
+        {
+            return isLocked;
         }
     }
 

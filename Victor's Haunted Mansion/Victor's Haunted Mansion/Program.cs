@@ -10,7 +10,8 @@ namespace Victor_s_Haunted_Mansion
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hej test");
+            Game game = new Game();
+            game.PlayGame();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Victor_s_Haunted_Mansion
             }
             foreach (var item in itemList)
             {
-                descriptionText += $"{item.Name} ";
+                descriptionText += $"There is a {item.Name} in the room. ";
             }
             return descriptionText;
         }
@@ -63,11 +63,44 @@ namespace Victor_s_Haunted_Mansion
             exits.Add(holder);
         }
 
+        public bool UseItemOnExit(Item item, string exit)
+        {
+            for (int i = 0; i < exits.Count; i++)
+            {
+                if (exits[i].Name == exit)
+                {
+                    if (exits[i].GetExit().UseItemOn(item))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public int Go(string direction)
+        {
+            foreach (ExitHolder exit in exits)
+            {
+                if (exit.GetDirection() == direction && !exit.GetExit().IsLocked())
+                {
+                    return exit.GetExit().RoomNumber;
+                }
+            }
+            return -1;
+        }
+
         public class ExitHolder
         {
             
             private Exit exit;
             private string direction;
+
+            public string Name
+            {
+                get { return exit.Name; }
+            }
 
             public ExitHolder(Exit exit, string direction)
             {
@@ -79,6 +112,17 @@ namespace Victor_s_Haunted_Mansion
             {
                 string information = "In the " + direction + " there is a " + exit.Name + ".";
                 return information;
+            }
+            
+
+            public Exit GetExit()
+            {
+                return exit;
+            }
+
+            public string GetDirection()
+            {
+                return direction;
             }
         }
     }
