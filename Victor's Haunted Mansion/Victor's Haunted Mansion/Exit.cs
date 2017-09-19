@@ -13,6 +13,8 @@ namespace Victor_s_Haunted_Mansion
         private string informationLocked;
         private string informationOpen;
         private string unlockItem;
+       
+
         
         public Exit(string name, bool locked, string informationLocked, string informationOpen, string unlockItem)
         {
@@ -38,4 +40,6 @@ namespace Victor_s_Haunted_Mansion
             return informationOpen;
         }
     }
+
+    
 }
