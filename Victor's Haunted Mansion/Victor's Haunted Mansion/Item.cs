@@ -18,7 +18,7 @@ namespace Victor_s_Haunted_Mansion
         }
         public static Item CraftItem(string item1, string item2)
         {
-            if ((item1 == "stick" && item2 == "matches") || (item2 == "stick" && item1 == "matches"))
+            if ((item1 == "stick" && item2 == "matchbox") || (item2 == "stick" && item1 == "matchbox"))
             {
                 Item item = new Item("torch", "A fiercely burning torch.");
                 return item;
