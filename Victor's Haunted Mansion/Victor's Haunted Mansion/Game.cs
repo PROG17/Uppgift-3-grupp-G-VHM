@@ -8,7 +8,7 @@ namespace Victor_s_Haunted_Mansion
 {
     class Game
     {
-        private Room[] rooms = new Room[10];
+        private Room[] rooms = new Room[11];
         private Player player;
 
         public Game()
