@@ -8,7 +8,7 @@ namespace Victor_s_Haunted_Mansion
 {
     class Game
     {
-        private Room[] rooms = new Room[7];
+        private Room[] rooms = new Room[10];
         private Player player;
 
         public Game()
@@ -33,6 +33,48 @@ namespace Victor_s_Haunted_Mansion
             room.AddItem(item);
             rooms[0] = room;
 
+            //Room 2
+            room = new Room("The room is dark but " + player.Name + " can still feel the dust in the air.", false);
+            exit = new Exit("red door", 1, true, "red it is locked", "it's open", "fork");//ska koppieras från rum 1
+            room.AddExit(exit, "west");
+            item = new Item("crowbar", "This is a old crowbar.");
+            room.AddItem(item);
+            item = new Item("key", "A red key is shining brightly.");
+            room.AddItem(item);
+            rooms[2] = room;
+
+            //Room 3
+            room = new Room("A huge room. The walls are filled with paintings of annimals wearing human clothes.", false);
+            //skicka in en dörr ifrån rum 1
+            exit = new Exit("staircase", 4, true, "", "You see a staircase leading to the attic.", "");
+            room.AddExit(exit, "east");
+            exit = new Exit("brooken door", 5, true, "The door is broken, it looks like it's about to break.", 
+                "There is a big hole where the door used to be.", "crowbar");
+            room.AddExit(exit, "west");
+            rooms[3] = room;
+
+            //Room 6
+            room = new Room("You steep in to a fancy room. There are two chairs and a sofa, in front of the sofa is the fur from a bear.", false);
+            //lägg till dörr nio
+            exit = new Exit("window", 10, true, "The window is cowerd with boards.", "The window is now open.", "crowbar");
+            room.AddExit(exit, "east");
+            exit = new Exit("fireplace", 7, true, "There is no fire in the fireplace.", "A hidden passage was revealed behind the lit fireplace", "tourch");
+            room.AddExit(exit, "north");
+            rooms[6] = room;
+
+            //Room 7
+            room = new Room("You crawl through a small dark passage. Suddenly there is light. You can feel the breeze in your sweaty face. " +
+                "You run towards freedom. Congratulations " + player.Name + " you survived.", true);
+
+            //Room 8
+            room = new Room("You jump from the window. You can feel the solid ground push towards your face. " 
+                + player.Name + "is no more.....\n--------Game over---------", true);
+            rooms[8] = room;
+
+            //Room 10
+            room = new Room("You jump from the window. This is never a good idea!!!! "
+                            + player.Name + "is no more.....\n--------Game over---------", true);
+            rooms[10] = room;
         }
 
         public void PlayGame()
@@ -54,21 +96,10 @@ namespace Victor_s_Haunted_Mansion
                 switch (commands[0])
                 {
                     case "go":
-                        if (commands[1] == "west")
+                        if ( (commands[1] == "west" || commands[1] == "east" || commands[1] == "north" ||
+                            commands[1] == "south") && commands.Length == 2)
                         {
-                            TryMove("west");
-                        }
-                        else if (commands[1] == "east")
-                        {
-                            TryMove("east");
-                        }
-                        else if (commands[1] == "north")
-                        {
-                            TryMove("north");
-                        }
-                        else if (commands[1] == "south")
-                        {
-                            TryMove("south");
+                            playing = TryMove(commands[1]);
                         }
                         else
                         {
@@ -202,17 +233,19 @@ namespace Victor_s_Haunted_Mansion
             }
         }
 
-        public void TryMove(string direction)
+        public bool TryMove(string direction)
         {
             int toRoom = rooms[player.InRoom].Go(direction);
             if (toRoom >= 0)
             {
                 player.InRoom = toRoom;
                 Console.WriteLine(rooms[player.InRoom].GetDescription());
+                return rooms[player.InRoom].EndPoint;
             }
             else
             {
                 Console.WriteLine("You could not go " + direction + ".");
+                return false;
             }
         }
 
