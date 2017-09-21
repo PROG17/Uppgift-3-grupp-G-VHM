@@ -135,8 +135,8 @@ namespace Victor_s_Haunted_Mansion
                 switch (commands[0])
                 {
                     case "go":
-                        if ( (commands[1] == "west" || commands[1] == "east" || commands[1] == "north" ||
-                            commands[1] == "south") && commands.Length == 2)
+                        if (commands.Length == 2 && (commands[1] == "west" || commands[1] == "east" || commands[1] == "north" ||
+                            commands[1] == "south"))
                         {
                             playing = !TryMove(commands[1]);
                         }
