@@ -55,7 +55,7 @@ namespace Victor_s_Haunted_Mansion
             room = new Room("A huge room. The walls are filled with paintings of annimals wearing human clothes.", false);
             exit = new Exit("staircase", 4, false, "", "You see a staircase leading to the attic.", "");
             room.AddExit(exit, "east");
-            exit = new Exit("brooken door", 5, true, "The door is broken, it looks like it's about to break.",
+            exit = new Exit("broken door", 5, true, "The door is broken, it looks like it's about to break.",
                 "There is a big hole where the door used to be.", "crowbar");
             room.AddExit(exit, "west");
             exit = new Exit("red door", 1, false, "", "The red door is now open.", "");
@@ -68,6 +68,8 @@ namespace Victor_s_Haunted_Mansion
             room.AddExit(exit, "east");
             exit = new Exit("staircase", 3, false, "", "The staircase is leading back too the room.", "");
             room.AddExit(exit, "west");
+            item = new Item("stick", "The stick looks flameable.");
+            room.AddItem(item);
             rooms[4] = room;
 
             // Room 5
@@ -76,9 +78,10 @@ namespace Victor_s_Haunted_Mansion
             room.AddExit(exit, "north");
             exit = new Exit("secret door", 9, false, "", "You barely see the door", "");
             room.AddExit(exit, "west");
-            exit = new Exit("brooken door", 3, false, "", "There is a big hole where the door used to be.", "");
+            exit = new Exit("broken door", 3, false, "", "There is a big hole where the door used to be.", "");
             room.AddExit(exit, "east");
             item = new Item("matches", "It's a blue box of matches.");
+            room.AddItem(item);
             rooms[5] = room;
 
             //Room 6
