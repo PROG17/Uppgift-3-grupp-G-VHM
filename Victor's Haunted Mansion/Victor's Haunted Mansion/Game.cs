@@ -33,6 +33,33 @@ namespace Victor_s_Haunted_Mansion
             room.AddItem(item);
             rooms[0] = room;
 
+            //Room 1
+            room = new Room("Empty room with a sofa in the corner.", false);
+            exit = new Exit("red door", 2, true, "You need a key too unlock the door.", "the red door is now open.", "key");
+            room.AddExit(exit, "east");
+            exit = new Exit("window", 8, false, "", "Thw window is open.", "");
+            room.AddExit(exit, "west");
+            rooms[1] = room;
+            // Kopiera rum från rum 0
+
+            // Room 4
+            room = new Room("You are in a attic, its hanging dead bats all over the attic.", false);
+            exit = new Exit("window",8,false,"","It's a window too the east, it's open...", "");
+            room.AddExit(exit, "east");
+            exit = new Exit("staircase", 3, false, "", "The staircase is leading back too the room.", "");
+            rooms[4] = room;
+
+            // Room 5
+            room = new Room("You walked in to an empty room.", false);
+            exit = new Exit("dark corridor", 6, false, "", "The corridor is long and dark", "");
+            room.AddExit(exit, "north");
+            exit = new Exit("secret door", 9, false, "", "You barely see the door", "");
+            room.AddExit(exit, "west");
+            rooms[5] = room;
+
+            // Room 9
+            room = new Room("You see a monster in the room and he hunts you down while he screems -Victor is HUNGRY!!! \n GAME OVER...", true);
+            rooms[9] = room;
         }
 
         public void PlayGame()
