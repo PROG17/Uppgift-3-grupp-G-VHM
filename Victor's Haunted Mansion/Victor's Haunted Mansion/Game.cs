@@ -195,6 +195,10 @@ namespace Victor_s_Haunted_Mansion
                                 player.AddItem(item);
                                 Console.WriteLine("You picked up a " + item.Name + ".");
                             }
+                            if (item == null && rooms[player.InRoom].GetDescription().Contains(commands[1]))
+                            {
+                                Console.WriteLine("You cannot pick up the " + commands[1]);
+                            }
                             else
                             {
                                 Console.WriteLine("There is no " + commands[1] + " in the room.");
@@ -276,7 +280,7 @@ namespace Victor_s_Haunted_Mansion
                     case "help":
                         if (commands.Length == 1)
                         {
-                            Console.WriteLine("Commands: \ngo <direction>\nuse <item>\nuse<item> on <item/exit>\nget <item>\ndrop<item>\nlook\ninspect <item/exit>\ninventory");
+                            Console.WriteLine("Commands: \ngo <direction>\nuse <item>\nuse <item> on <item/exit>\nget <item>\ndrop <item>\nlook\ninspect <item/exit>\ninventory");
                         }
                         break;
                     default:
