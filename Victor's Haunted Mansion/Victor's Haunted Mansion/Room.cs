@@ -90,6 +90,24 @@ namespace Victor_s_Haunted_Mansion
             }
             return -1;
         }
+        public string InspectRoom(string name)
+        {
+            foreach (var item in itemList)
+            {
+                if (item.Name == name)
+                {
+                    return item.ItemInformation;
+                }
+            }
+            foreach (var exit in exits)
+            {
+                if (exit.Name == name)
+                {
+                    return exit.GetExit().GetInformation();
+                }
+            }
+            return null;
+        }
 
         public class ExitHolder
         {

@@ -148,9 +148,37 @@ namespace Victor_s_Haunted_Mansion
                             ErrorMessage();
                         break;
                     case "look":
-                        Console.WriteLine(rooms[player.InRoom].GetDescription());
+                        if (commands.Length == 1)
+                        {
+                            Console.WriteLine(rooms[player.InRoom].GetDescription());
+                        }
+                        else
+                        {
+                            ErrorMessage();
+                        }
                         break;
                     case "inspect":
+                        if (commands.Length == 2)
+                        {
+                            string info = null;
+                            info = player.InspectInventory(commands[1]);
+                            if (info == null)
+                            {
+                                info = rooms[player.InRoom].InspectRoom(commands[1]);
+                            }
+                            if (info != null)
+                            {
+                                Console.WriteLine(info);
+                            }
+                            else
+                            {
+                                ErrorMessage();
+                            }                            
+                        }
+                        else
+                        {
+                            ErrorMessage();
+                        }
                         break;
                     default:
                         ErrorMessage();

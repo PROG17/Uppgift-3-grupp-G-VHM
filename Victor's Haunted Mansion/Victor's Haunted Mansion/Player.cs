@@ -89,5 +89,16 @@ namespace Victor_s_Haunted_Mansion
             }
             return text;
         }
+        public string InspectInventory(string itemName)
+        {
+            foreach (var item in inventory)
+            {
+                if (item.Name == itemName)
+                {
+                    return item.ItemInformation;
+                }
+            }
+            return null;
+        }
     }
 }
