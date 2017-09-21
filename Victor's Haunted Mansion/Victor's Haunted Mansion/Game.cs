@@ -97,6 +97,7 @@ namespace Victor_s_Haunted_Mansion
             //Room 7
             room = new Room("You crawl through a small dark passage. Suddenly there is light. You can feel the breeze in your sweaty face. " +
                 "You run towards freedom. Congratulations " + player.Name + " you survived.", true);
+            rooms[7] = room;
 
             //Room 8
             room = new Room("You jump from the window. You can feel the solid ground push towards your face. " 
