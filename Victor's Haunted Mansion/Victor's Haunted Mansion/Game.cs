@@ -23,15 +23,36 @@ namespace Victor_s_Haunted_Mansion
 
         public void LoadRooms()
         {
-            //Exempel room
-            Room room = new Room("This is a test room.", false);
-            Exit exit = new Exit("red door", 1, true, "red it is locked", "it's open", "fork");
-            room.AddExit(exit, "west");
-            exit = new Exit("door", 1, true, "it is locked", "it's open", "fork");
+            //Start room
+            Room room = new Room("The room is dark and enclosed with filth and grime on the walls.", false);
+            Exit exit = new Exit("archway", 1, false, "", "It invites you in", "");
+            room.AddExit(exit, "north");
+            //exit = new Exit("archway", 1, false, "it is open", "it is open", "");
+           rooms[0] = room;
+
+            //Room 1
+            room = new Room("Empty room with a sofa in the corner.", false);
+            exit = new Exit("red door", 2, true, "You need a key too unlock the door.", "the red door is now open.", "key");
             room.AddExit(exit, "east");
-            Item item = new Item("fork", "this is a dirty fork.");
-            room.AddItem(item);
-            rooms[0] = room;
+            exit = new Exit("window", 8, false, "", "Thw window is open.", "");
+            room.AddExit(exit, "west");
+            rooms[1] = room;
+            // Kopiera rum från rum 0
+
+            // Room 4
+            room = new Room("You are in a attic, its hanging dead bats all over the attic.", false);
+            exit = new Exit("window",8,false,"","It's a window too the east, it's open...", "");
+            room.AddExit(exit, "east");
+            exit = new Exit("staircase", 3, false, "", "The staircase is leading back too the room.", "");
+            rooms[4] = room;
+
+            // Room 5
+            room = new Room("You walked in to an empty room.", false);
+            exit = new Exit("dark corridor", 6, false, "", "The corridor is long and dark", "");
+            room.AddExit(exit, "north");
+            exit = new Exit("secret door", 9, false, "", "You barely see the door", "");
+            room.AddExit(exit, "west");
+            rooms[5] = room;
 
             //Room 2
             room = new Room("The room is dark but " + player.Name + " can still feel the dust in the air.", false);
