@@ -17,24 +17,24 @@ namespace Victor_s_Haunted_Mansion
             string name = Console.ReadLine();
             player = new Player(name);
             player.InRoom = 0;
+            
+            LoadRooms();
+        }
 
+        public void LoadRooms()
+        {
+            //Exempel room
             Room room = new Room("This is a test room.", false);
-            Exit exit = new Exit("door", 1, true, "it is locked", "it's open", "fork");
+            Exit exit = new Exit("red door", 1, true, "red it is locked", "it's open", "fork");
             room.AddExit(exit, "west");
+            exit = new Exit("door", 1, true, "it is locked", "it's open", "fork");
+            room.AddExit(exit, "east");
             Item item = new Item("fork", "this is a dirty fork.");
             room.AddItem(item);
-
-            Item item2 = new Item("plate", "this is a dirty fork.");
-            room.AddItem(item2);
             rooms[0] = room;
 
-
-            Room room2 = new Room("This is thw west test room.", false);
-            Exit exit2 = new Exit("door", 0, true, "it is locked", "it's open", "fork");
-            room.AddExit(exit2, "east");
-            rooms[1] = room2;
         }
-        
+
         public void PlayGame()
         {
             Console.Clear();
@@ -76,8 +76,15 @@ namespace Victor_s_Haunted_Mansion
                         }
                         break;
                     case "use":
-                        if (commands.Length == 4 && commands[2] == "on")
+                        if (commands.Length >= 4 && commands[2] == "on")
                         {
+                            if (commands.Length > 4)
+                            {
+                                for (int i = 4; i < commands.Length; i++)
+                                {
+                                    commands[3] = commands[3] + " " + commands[i];
+                                }
+                            }
                             Item item = player.GetItem(commands[1]);
                             if (item != null)
                             {
@@ -158,8 +165,15 @@ namespace Victor_s_Haunted_Mansion
                         }
                         break;
                     case "inspect":
-                        if (commands.Length == 2)
+                        if (commands.Length >= 2)
                         {
+                            if (commands.Length > 2)
+                            {
+                                for (int i = 2; i < commands.Length; i++)
+                                {
+                                    commands[1] = commands[1] + " " + commands[i];
+                                }
+                            }
                             string info = null;
                             info = player.InspectInventory(commands[1]);
                             if (info == null)
