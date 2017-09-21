@@ -27,23 +27,47 @@ namespace Victor_s_Haunted_Mansion
             Room room = new Room("The room is dark and enclosed with filth and grime on the walls.", false);
             Exit exit = new Exit("archway", 1, false, "", "It invites you in", "");
             room.AddExit(exit, "north");
-            //exit = new Exit("archway", 1, false, "it is open", "it is open", "");
-           rooms[0] = room;
+            rooms[0] = room;
 
             //Room 1
             room = new Room("Empty room with a sofa in the corner.", false);
-            exit = new Exit("red door", 2, true, "You need a key too unlock the door.", "the red door is now open.", "key");
-            room.AddExit(exit, "east");
-            exit = new Exit("window", 8, false, "", "Thw window is open.", "");
+            exit = new Exit("red door", 3, true, "You need a key too unlock the door.", "The red door is now open.", "key");
+            room.AddExit(exit, "north");
+            exit = new Exit("window", 8, false, "", "The window is open.", "");
             room.AddExit(exit, "west");
+            exit = new Exit("archway", 0, false, "", "It's dark and gloomy", "");
+            room.AddExit(exit, "south");
+            exit = new Exit("door", 2, false, "", "It's a regular door", "");
+            room.AddExit(exit, "east");
             rooms[1] = room;
-            // Kopiera rum från rum 0
+            
+            //Room 2
+            room = new Room("The room is dark but " + player.Name + " can still feel the dust in the air.", false);
+            exit = new Exit("door", 1, false, "", "It's a regular door", "");
+            room.AddExit(exit, "west");
+            Item item = new Item("crowbar", "This is a old crowbar.");
+            room.AddItem(item);
+            item = new Item("key", "A red key is shining brightly.");
+            room.AddItem(item);
+            rooms[2] = room;
+
+            //Room 3
+            room = new Room("A huge room. The walls are filled with paintings of annimals wearing human clothes.", false);
+            exit = new Exit("staircase", 4, true, "", "You see a staircase leading to the attic.", "");
+            room.AddExit(exit, "east");
+            exit = new Exit("brooken door", 5, true, "The door is broken, it looks like it's about to break.",
+                "There is a big hole where the door used to be.", "crowbar");
+            room.AddExit(exit, "west");
+            exit = new Exit("red door", 1, false, "", "The red door is now open.", "");
+            room.AddExit(exit, "south");
+            rooms[3] = room;
 
             // Room 4
             room = new Room("You are in a attic, its hanging dead bats all over the attic.", false);
             exit = new Exit("window",8,false,"","It's a window too the east, it's open...", "");
             room.AddExit(exit, "east");
             exit = new Exit("staircase", 3, false, "", "The staircase is leading back too the room.", "");
+            room.AddExit(exit, "west");
             rooms[4] = room;
 
             // Room 5
@@ -52,34 +76,18 @@ namespace Victor_s_Haunted_Mansion
             room.AddExit(exit, "north");
             exit = new Exit("secret door", 9, false, "", "You barely see the door", "");
             room.AddExit(exit, "west");
-            rooms[5] = room;
-
-            //Room 2
-            room = new Room("The room is dark but " + player.Name + " can still feel the dust in the air.", false);
-            exit = new Exit("red door", 1, true, "red it is locked", "it's open", "fork");//ska koppieras från rum 1
-            room.AddExit(exit, "west");
-            item = new Item("crowbar", "This is a old crowbar.");
-            room.AddItem(item);
-            item = new Item("key", "A red key is shining brightly.");
-            room.AddItem(item);
-            rooms[2] = room;
-
-            //Room 3
-            room = new Room("A huge room. The walls are filled with paintings of annimals wearing human clothes.", false);
-            //skicka in en dörr ifrån rum 1
-            exit = new Exit("staircase", 4, true, "", "You see a staircase leading to the attic.", "");
+            exit = new Exit("brooken door", 3, false, "", "There is a big hole where the door used to be.", "");
             room.AddExit(exit, "east");
-            exit = new Exit("brooken door", 5, true, "The door is broken, it looks like it's about to break.", 
-                "There is a big hole where the door used to be.", "crowbar");
-            room.AddExit(exit, "west");
-            rooms[3] = room;
+            item = new Item("matches", "It's a blue box of matches.");
+            rooms[5] = room;
 
             //Room 6
             room = new Room("You steep in to a fancy room. There are two chairs and a sofa, in front of the sofa is the fur from a bear.", false);
-            //lägg till dörr nio
-            exit = new Exit("window", 10, true, "The window is cowerd with boards.", "The window is now open.", "crowbar");
+            exit = new Exit("dark corridor", 5, false, "", "The corridor is long and dark", "");
+            room.AddExit(exit, "south");
+            exit = new Exit("window", 10, true, "The window is covered with boards.", "The window is now open.", "crowbar");
             room.AddExit(exit, "east");
-            exit = new Exit("fireplace", 7, true, "There is no fire in the fireplace.", "A hidden passage was revealed behind the lit fireplace", "tourch");
+            exit = new Exit("fireplace", 7, true, "There is no fire in the fireplace.", "A hidden passage was revealed behind the lit fireplace", "torch");
             room.AddExit(exit, "north");
             rooms[6] = room;
 
@@ -91,6 +99,10 @@ namespace Victor_s_Haunted_Mansion
             room = new Room("You jump from the window. You can feel the solid ground push towards your face. " 
                 + player.Name + "is no more.....\n--------Game over---------", true);
             rooms[8] = room;
+
+            //Room 9
+            room = new Room("You see a monster in the room and he hunts you down while he screems -Victor is HUNGRY!!! \n GAME OVER...", true);
+            rooms[9] = room;
 
             //Room 10
             room = new Room("You jump from the window. This is never a good idea!!!! "
@@ -120,7 +132,7 @@ namespace Victor_s_Haunted_Mansion
                         if ( (commands[1] == "west" || commands[1] == "east" || commands[1] == "north" ||
                             commands[1] == "south") && commands.Length == 2)
                         {
-                            playing = TryMove(commands[1]);
+                            playing = !TryMove(commands[1]);
                         }
                         else
                         {
