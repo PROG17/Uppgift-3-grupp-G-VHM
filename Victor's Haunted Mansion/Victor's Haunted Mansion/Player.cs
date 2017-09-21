@@ -21,7 +21,7 @@ namespace Victor_s_Haunted_Mansion
             Item item = null;
             for (int i = 0; i < inventory.Count; i++)
             {
-                if ( inventory[i].Name == itemName)
+                if (inventory[i].Name == itemName)
                 {
                     item = inventory[i];
                     inventory.RemoveAt(i);
@@ -52,7 +52,8 @@ namespace Victor_s_Haunted_Mansion
             if (InventoryCountainsItem(item1) && InventoryCountainsItem(item2))
             {
                 Item item = Item.CraftItem(item1, item2);
-                if(item != null){
+                if (item != null)
+                {
                     DropItem(item1);
                     DropItem(item2);
                     inventory.Add(item);
@@ -67,7 +68,7 @@ namespace Victor_s_Haunted_Mansion
             {
                 return false;
             }
-            
+
         }
 
         public bool InventoryCountainsItem(string item)
@@ -83,9 +84,17 @@ namespace Victor_s_Haunted_Mansion
         public string InventoryPrint()
         {
             string text = "Inventory List: \n";
-            foreach (var item in inventory)
+            if (inventory.Count == 0)
             {
-                text += item.Name + "\n";
+                text +="Your inventory is empty";
+            }
+            else
+            {
+                foreach (var item in inventory)
+                {
+                    text += item.Name + "\n";
+                }
+
             }
             return text;
         }

@@ -263,6 +263,22 @@ namespace Victor_s_Haunted_Mansion
                             ErrorMessage();
                         }
                         break;
+                    case "inventory":
+                        if (commands.Length == 1)
+                        {
+                            Console.WriteLine(player.InventoryPrint());
+                        }
+                        else
+                        {
+                             ErrorMessage();
+                        }
+                        break;
+                    case "help":
+                        if (commands.Length == 1)
+                        {
+                            Console.WriteLine("Commands: \ngo <direction>\nuse <item>\nuse<item> on <item/exit>\nget <item>\ndrop<item>\nlook\ninspect <item/exit>\ninventory");
+                        }
+                        break;
                     default:
                         ErrorMessage();
                         break;
