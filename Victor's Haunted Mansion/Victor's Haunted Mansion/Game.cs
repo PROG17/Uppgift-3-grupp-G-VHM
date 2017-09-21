@@ -8,7 +8,7 @@ namespace Victor_s_Haunted_Mansion
 {
     class Game
     {
-        private Room[] rooms = new Room[7];
+        private Room[] rooms = new Room[10];
         private Player player;
 
         public Game()
@@ -23,15 +23,12 @@ namespace Victor_s_Haunted_Mansion
 
         public void LoadRooms()
         {
-            //Exempel room
-            Room room = new Room("This is a test room.", false);
-            Exit exit = new Exit("red door", 1, true, "red it is locked", "it's open", "fork");
-            room.AddExit(exit, "west");
-            exit = new Exit("door", 1, true, "it is locked", "it's open", "fork");
-            room.AddExit(exit, "east");
-            Item item = new Item("fork", "this is a dirty fork.");
-            room.AddItem(item);
-            rooms[0] = room;
+            //Start room
+            Room room = new Room("The room is dark and enclosed with filth and grime on the walls.", false);
+            Exit exit = new Exit("archway", 1, false, "", "It invites you in", "");
+            room.AddExit(exit, "north");
+            //exit = new Exit("archway", 1, false, "it is open", "it is open", "");
+           rooms[0] = room;
 
             //Room 1
             room = new Room("Empty room with a sofa in the corner.", false);
