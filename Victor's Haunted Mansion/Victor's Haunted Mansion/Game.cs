@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -121,7 +122,7 @@ namespace Victor_s_Haunted_Mansion
             bool playing = true;
             string instruction;
 
-            Console.WriteLine("You wake up in what feels like a haunted house. You feel the urgent need to escape.\n");
+            Console.WriteLine("You wake up in what feels like a haunted house. You feel the urgent need to escape.\n <Write \"help\" for a list of commands.> ");
             Console.WriteLine(rooms[player.InRoom].GetDescription());
 
             while (playing)
@@ -141,7 +142,7 @@ namespace Victor_s_Haunted_Mansion
                         }
                         else
                         {
-                            Console.WriteLine("Are you drunk, you need to specify a correct direction.");
+                            Console.WriteLine("Are you drunk? You need to specify a correct direction.");
                         }
                         break;
                     case "use":
@@ -168,7 +169,7 @@ namespace Victor_s_Haunted_Mansion
                                     success = player.CombinedItems(commands[1], commands[3]);
                                     if (success)
                                     {
-                                        Console.WriteLine("You crafted a torch"); //kan finas till lite?
+                                        Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name); 
                                     }
                                     else
                                     {
@@ -199,7 +200,7 @@ namespace Victor_s_Haunted_Mansion
                             {
                                 Console.WriteLine("You cannot pick up the " + commands[1]);
                             }
-                            else
+                            else if(item == null)
                             {
                                 Console.WriteLine("There is no " + commands[1] + " in the room.");
                             }
