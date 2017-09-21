@@ -53,7 +53,7 @@ namespace Victor_s_Haunted_Mansion
 
             //Room 3
             room = new Room("A huge room. The walls are filled with paintings of annimals wearing human clothes.", false);
-            exit = new Exit("staircase", 4, true, "", "You see a staircase leading to the attic.", "");
+            exit = new Exit("staircase", 4, false, "", "You see a staircase leading to the attic.", "");
             room.AddExit(exit, "east");
             exit = new Exit("brooken door", 5, true, "The door is broken, it looks like it's about to break.",
                 "There is a big hole where the door used to be.", "crowbar");
@@ -97,7 +97,7 @@ namespace Victor_s_Haunted_Mansion
 
             //Room 8
             room = new Room("You jump from the window. You can feel the solid ground push towards your face. " 
-                + player.Name + "is no more.....\n--------Game over---------", true);
+                + player.Name + " is no more.....\n--------Game over---------", true);
             rooms[8] = room;
 
             //Room 9
@@ -125,7 +125,7 @@ namespace Victor_s_Haunted_Mansion
                 instruction = Console.ReadLine();
                 instruction = instruction.ToLower();
                 string[] commands = instruction.Split(' ');
-
+                Console.WriteLine();
                 switch (commands[0])
                 {
                     case "go":
@@ -262,7 +262,6 @@ namespace Victor_s_Haunted_Mansion
                         ErrorMessage();
                         break;
                 }
-
             }
         }
 
