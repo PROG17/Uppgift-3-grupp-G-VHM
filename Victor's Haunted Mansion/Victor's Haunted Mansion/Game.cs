@@ -15,7 +15,15 @@ namespace Victor_s_Haunted_Mansion
 
         public Game()
         {
-            Console.Write("Enter player name: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(@" 
+ _    ___      __            _          __  __                  __           __   __  ___                 _           
+| |  / (_)____/ /_____  ____( )_____   / / / /___ ___  ______  / /____  ____/ /  /  |/  /___ _____  _____(_)___  ____ 
+| | / / / ___/ __/ __ \/ ___/// ___/  / /_/ / __ `/ / / / __ \/ __/ _ \/ __  /  / /|_/ / __ `/ __ \/ ___/ / __ \/ __ \
+| |/ / / /__/ /_/ /_/ / /    (__  )  / __  / /_/ / /_/ / / / / /_/  __/ /_/ /  / /  / / /_/ / / / (__  ) / /_/ / / / /
+|___/_/\___/\__/\____/_/    /____/  /_/ /_/\__,_/\__,_/_/ /_/\__/\___/\__,_/  /_/  /_/\__,_/_/ /_/____/_/\____/_/ /_/");
+
+            Console.WriteLine("\nEnter player name: ");
             string name = Console.ReadLine();
             player = new Player(name);
             player.InRoom = 0;
@@ -127,7 +135,7 @@ namespace Victor_s_Haunted_Mansion
 
             while (playing)
             {
-                Console.Write("Input instructions:");
+                Console.Write("\nInput instructions:");
                 instruction = Console.ReadLine();
                 instruction = instruction.ToLower();
                 string[] commands = instruction.Split(' ');
