@@ -24,7 +24,12 @@ namespace Victor_s_Haunted_Mansion
 |___/_/\___/\__/\____/_/    /____/  /_/ /_/\__,_/\__,_/_/ /_/\__/\___/\__,_/  /_/  /_/\__,_/_/ /_/____/_/\____/_/ /_/");
 
             Console.WriteLine("\nEnter player name: ");
-            string name = Console.ReadLine();
+            string name;
+            do
+            {
+                name = Console.ReadLine();
+            } while (name.Length <= 0);
+
             player = new Player(name);
             player.InRoom = 0;
             
