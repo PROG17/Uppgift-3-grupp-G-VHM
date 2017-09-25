@@ -10,6 +10,7 @@ namespace Victor_s_Haunted_Mansion
     {
         static void Main(string[] args)
         {
+            Console.Title = "Victors Haunted Mansion";
             Game game = new Game();
             game.PlayGame();
         }
