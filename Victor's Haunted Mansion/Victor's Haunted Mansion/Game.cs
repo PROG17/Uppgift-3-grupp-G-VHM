@@ -231,56 +231,44 @@ namespace Victor_s_Haunted_Mansion
         //När use-kommandot anrpoas
         private void Use(string[] commands)
         {
-            //för att använda ett item på korrekt sätt så behöver minst 4 ord anges
-            if (commands.Length >= 4 && commands[2] == "on")
-            {
-                //om det är mer än 4ord, gör så att sista fjärde kommandot består av ett sammansatt ord
-                if (commands.Length > 4)
-                {
-                    for (int i = 4; i < commands.Length; i++)
-                    {
-                        commands[3] = commands[3] + " " + commands[i];
-                    }
-                }
-
-                //försök att få angivet item från spelaren
-                Item item = player.GetItem(commands[1]);
-
-                //om item hittades i player
-                if (item != null)
-                {
-                    //försök att använda item på exit
-                    bool success = rooms[player.InRoom].UseItemOnExit(item, commands[3]); //flaggar true om use har lyckats
-
-                    if (success)
-                    {
-                        Console.WriteLine("You open the " + commands[3]);
-                    }
-                    else
-                    {
-                        //om inte use lyckats på exit, försök kombinera två items
-                        success = player.CombinedItems(commands[1], commands[3]);
-
-                        if (success)
-                        {
-                            Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name);
-                        }
-                        else
-                        {
-                            Console.WriteLine("The combination does not work.");
-                        }
-                    }
-                }
-                //om item inte hittats i player
-                else
-                {
-                    Console.WriteLine("You don't have that item");
-                }
-            }
-            //om use-kommandot användes på helt fel sätt
-            else
+            //Om ordet är för kort eller "on" inte är tredje ordet
+            if (commands.Length < 4 || commands[2] != "on")
             {
                 ErrorMessage();
+                return; //Avsluta metoden efter att felmedelande skrivits ut
+            }
+
+            //Om det är mer än 4ord, gör så att sista fjärde kommandot består av ett sammansatt ord
+            if (commands.Length > 4)
+            {
+                for (int i = 4; i < commands.Length; i++)
+                {
+                    commands[3] = commands[3] + " " + commands[i];
+                }
+            }
+
+            //Försök att få angivet item från spelaren
+            Item item = player.GetItem(commands[1]);
+            
+            //Om item inte fanns i player
+            if (item == null)
+            {
+                Console.WriteLine("You don't have that item");
+            }
+            //Om item hittades i player, försök att använda på exit
+            else if (rooms[player.InRoom].UseItemOnExit(item, commands[3]))
+            {
+                //Om item kunde användas på exit, skriv ut att exit öppnats
+                Console.WriteLine("You open the " + commands[3]);
+            }
+            //Om use inte lyckats på exit, försök kombinera två items
+            else if (player.CombinedItems(commands[1], commands[3]))
+            {
+                Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name);
+            }
+            else
+            {
+                Console.WriteLine("The combination does not work.");
             }
         }
 
