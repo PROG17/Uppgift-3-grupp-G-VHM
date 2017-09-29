@@ -253,18 +253,18 @@ namespace Victor_s_Haunted_Mansion
             //Om item inte fanns i player
             if (item == null)
             {
-                Console.WriteLine("You don't have that item");
+                Console.WriteLine("You don't have that item.");
             }
             //Om item hittades i player, försök att använda på exit
             else if (rooms[player.InRoom].UseItemOnExit(item, commands[3]))
             {
                 //Om item kunde användas på exit, skriv ut att exit öppnats
-                Console.WriteLine("You open the " + commands[3]);
+                Console.WriteLine("You open the " + commands[3] + ".");
             }
             //Om use inte lyckats på exit, försök kombinera två items
             else if (player.CombinedItems(commands[1], commands[3]))
             {
-                Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name);
+                Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name + ".");
             }
             else
             {
