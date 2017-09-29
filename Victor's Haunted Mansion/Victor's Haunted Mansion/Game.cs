@@ -31,8 +31,8 @@ namespace Victor_s_Haunted_Mansion
             } while (name.Length <= 0);
 
             player = new Player(name);
-            player.InRoom = 0;
-            
+            player.InRoom = 0; //Vilket rum spelaren är i, (startar i rum 0).
+
             LoadRooms();
         }
 
@@ -55,7 +55,7 @@ namespace Victor_s_Haunted_Mansion
             exit = new Exit("door", 2, false, "", "It's a regular door", "");
             room.AddExit(exit, "east");
             rooms[1] = room;
-            
+
             //Room 2
             room = new Room("The room is dark but " + player.Name + " can feel the dust hanging in the air.", false);
             exit = new Exit("door", 1, false, "", "It's a regular door", "");
@@ -79,7 +79,7 @@ namespace Victor_s_Haunted_Mansion
 
             // Room 4
             room = new Room("You are in an attic. There are dead bats suspended all over the attic.", false);
-            exit = new Exit("window",8,false,"","Thee sunlight shines through the window which bathes your face in warmth. It is open...", "");
+            exit = new Exit("window", 8, false, "", "Thee sunlight shines through the window which bathes your face in warmth. It is open...", "");
             room.AddExit(exit, "east");
             exit = new Exit("staircase", 3, false, "", "The staircase leads back to the previous room.", "");
             room.AddExit(exit, "west");
@@ -115,7 +115,7 @@ namespace Victor_s_Haunted_Mansion
             rooms[7] = room;
 
             //Room 8
-            room = new Room("You jump from the window. You can feel the solid ground rush towards your face. " 
+            room = new Room("You jump from the window. You can feel the solid ground rush towards your face. "
                 + player.Name + " is no more.....\n--------Game over---------", true);
             rooms[8] = room;
 
@@ -132,25 +132,30 @@ namespace Victor_s_Haunted_Mansion
         public void PlayGame()
         {
             Console.Clear();
-            bool playing = true;
-            string instruction;
+            bool playing = true; //true medans spelet körs
+            string instruction; //strängen som lagrar all input ifrån användaren
 
             Console.WriteLine("You wake up in what feels like a haunted house. You feel the urgent need to escape.\n <Write \"help\" for a list of commands.> ");
             Console.WriteLine(rooms[player.InRoom].GetDescription());
 
             while (playing)
             {
+                //Läser in ord från konsolen och lagrar alla ord i en sträng array
                 Console.Write("\nInput instructions:");
                 instruction = Console.ReadLine();
                 instruction = instruction.ToLower();
-                string[] commands = instruction.Split(' ');
-                Console.WriteLine();
+
+                string[] commands = instruction.Split(' '); //instruktionerna ord för ord
+                Console.WriteLine(); //för layout
+
+                //Switch-case sats som kollar vilket kommando som anropats, kommandot är alltid första ordet användaren skrivit in.
                 switch (commands[0])
                 {
                     case "go":
-                        if (commands.Length == 2 && (commands[1] == "west" || commands[1] == "east" || commands[1] == "north" ||
-                            commands[1] == "south"))
+                        if (commands.Length == 2 && (commands[1] == "west" || commands[1] == "east" ||
+                            commands[1] == "north" || commands[1] == "south"))
                         {
+                            //Försöker flytta spelaren i rummet. Retunerar true om det nya rummet är en endpoint
                             playing = !TryMove(commands[1]);
                         }
                         else
@@ -159,8 +164,10 @@ namespace Victor_s_Haunted_Mansion
                         }
                         break;
                     case "use":
+                        //för att använda ett item på korrekt sätt så behöver minst 4 ord anges
                         if (commands.Length >= 4 && commands[2] == "on")
                         {
+                            //om det är mer än 4ord, gör så att sista fjärde kommandot består av ett sammansatt ord
                             if (commands.Length > 4)
                             {
                                 for (int i = 4; i < commands.Length; i++)
@@ -168,33 +175,44 @@ namespace Victor_s_Haunted_Mansion
                                     commands[3] = commands[3] + " " + commands[i];
                                 }
                             }
+
+                            //försök att få angivet item från spelaren
                             Item item = player.GetItem(commands[1]);
+
+                            //om item hittades i player
                             if (item != null)
                             {
-                                bool success = false;
+                                bool success = false; //flaggar om use har lyckats
+
+                                //försök att använda item på exit
                                 success = rooms[player.InRoom].UseItemOnExit(item, commands[3]);
+
                                 if (success)
                                 {
                                     Console.WriteLine("You open the " + commands[3]);
                                 }
                                 else
                                 {
+                                    //om inte use lyckats på exit, försök kombinera två items
                                     success = player.CombinedItems(commands[1], commands[3]);
+
                                     if (success)
                                     {
-                                        Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name); 
+                                        Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name);
                                     }
                                     else
                                     {
-                                        Console.WriteLine("The combination does not work.");   
+                                        Console.WriteLine("The combination does not work.");
                                     }
                                 }
                             }
+                            //om item inte hittats i player
                             else
                             {
                                 Console.WriteLine("You don't have that item");
                             }
                         }
+                        //om use användes på helt fel sätt
                         else
                         {
                             ErrorMessage();
@@ -203,17 +221,21 @@ namespace Victor_s_Haunted_Mansion
                     case "get":
                         if (commands.Length == 2)
                         {
+                            //försök att ta ett item från det rummet player befinner sig i
                             Item item = rooms[player.InRoom].GetItem(commands[1]);
+
+                            //om ett item hittats lägg till det i player
                             if (item != null)
                             {
                                 player.AddItem(item);
                                 Console.WriteLine("You picked up a " + item.Name + ".");
                             }
-                            if (item == null && rooms[player.InRoom].GetDescription().Contains(commands[1]))
+                            //annars om rummet innehåller textsträngen som efterfrågas
+                            else if (rooms[player.InRoom].GetDescription().Contains(commands[1]))
                             {
                                 Console.WriteLine("You cannot pick up the " + commands[1]);
                             }
-                            else if(item == null)
+                            else
                             {
                                 Console.WriteLine("There is no " + commands[1] + " in the room.");
                             }
@@ -221,13 +243,15 @@ namespace Victor_s_Haunted_Mansion
                         else
                         {
                             ErrorMessage();
-                            
                         }
                         break;
                     case "drop":
                         if (commands.Length == 2)
                         {
+                            //ta ett item från player
                             Item item = player.DropItem(commands[1]);
+
+                            //om item fanns, lägg till i rummet player befinner sig i
                             if (item != null)
                             {
                                 rooms[player.InRoom].AddItem(item);
@@ -239,11 +263,14 @@ namespace Victor_s_Haunted_Mansion
                             }
                         }
                         else
+                        {
                             ErrorMessage();
+                        }
                         break;
                     case "look":
                         if (commands.Length == 1)
                         {
+                            //få beskrivning av rummet
                             Console.WriteLine(rooms[player.InRoom].GetDescription());
                         }
                         else
@@ -252,8 +279,10 @@ namespace Victor_s_Haunted_Mansion
                         }
                         break;
                     case "inspect":
+                        //inspect är alltid minst två ord långt
                         if (commands.Length >= 2)
                         {
+                            //om mer än två ord används, lägg till dem i andra platsen i commands
                             if (commands.Length > 2)
                             {
                                 for (int i = 2; i < commands.Length; i++)
@@ -261,20 +290,27 @@ namespace Victor_s_Haunted_Mansion
                                     commands[1] = commands[1] + " " + commands[i];
                                 }
                             }
-                            string info = null;
+
+                            //Begär att få information om item från players inventory
+                            string info;
                             info = player.InspectInventory(commands[1]);
+
+                            //om item inte fanns i player
                             if (info == null)
                             {
+                                //begär att få information om itemet i rummet
                                 info = rooms[player.InRoom].InspectRoom(commands[1]);
                             }
+
+                            //om rummet gav info om item
                             if (info != null)
                             {
                                 Console.WriteLine(info);
                             }
-                            else
+                            else //item kunde inte hittas i rummet eller i player
                             {
                                 ErrorMessage();
-                            }                            
+                            }
                         }
                         else
                         {
@@ -284,11 +320,12 @@ namespace Victor_s_Haunted_Mansion
                     case "inventory":
                         if (commands.Length == 1)
                         {
+                            //skriv ut vad player har i inventory
                             Console.WriteLine(player.InventoryPrint());
                         }
                         else
                         {
-                             ErrorMessage();
+                            ErrorMessage();
                         }
                         break;
                     case "help":
@@ -304,20 +341,24 @@ namespace Victor_s_Haunted_Mansion
             }
         }
 
+        //Försök att flytta player, retunerar true om spelaren kommit till en endpoint
         public bool TryMove(string direction)
         {
+            //försöker flytta player, metoden retunerar vilket rum player ska gå till
+            //och retunerar -1 om player inte kunde gå till ett nytt rum
             int toRoom = rooms[player.InRoom].Go(direction);
+
+            //flytta player och beskriv nya rummet
             if (toRoom >= 0)
             {
                 player.InRoom = toRoom;
                 Console.WriteLine(rooms[player.InRoom].GetDescription());
                 return rooms[player.InRoom].EndPoint;
             }
-            else
-            {
-                Console.WriteLine("You could not go " + direction + ".");
-                return false;
-            }
+
+            //Player kunde inte gå någonstans
+            Console.WriteLine("You could not go " + direction + ".");
+            return false;
         }
 
         public void ErrorMessage()

@@ -11,29 +11,35 @@ namespace Victor_s_Haunted_Mansion
         static void Main(string[] args)
         {
             Console.Title = "Victors Haunted Mansion";
-            bool playing = true;
-            bool validAnswer = true;
+            bool playing = true; //Spela spelet tills playing har angets som false
 
             do
             {
-            Console.Clear();
+                Console.Clear();
+
+                //Spela spelet
                 Game game = new Game();
                 game.PlayGame();
-                while (validAnswer)
+
+                //Fråga användaren om de vill spela spelet en gång till
+                //Fortsätt loppa frågan tills yes eller no har angetts som svar
+                while (true)
                 {
-                    Console.WriteLine("Would you like to try again? (Yes/No)");
+                    Console.WriteLine("Would you like to play again? (Yes/No)");
+                    string yesNo = Console.ReadLine().ToLower(); //Läs in svaret som små lower-case
 
-                    string yesNo = Console.ReadLine();
-
-                    if (yesNo.ToLower() == "yes")
-                        validAnswer = false;
-                    if (yesNo.ToLower() == "no")
+                    if (yesNo == "yes")
                     {
-                        playing = false;
                         break;
                     }
 
+                    if (yesNo == "no")
+                    {
+                        playing = false; //Sluta spela spelet
+                        break;
+                    }
                 }
+
             } while (playing);
         }
     }

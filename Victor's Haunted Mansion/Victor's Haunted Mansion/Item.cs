@@ -16,6 +16,8 @@ namespace Victor_s_Haunted_Mansion
             Name = name;
             ItemInformation = itemInformation;
         }
+
+        //Försök att skapa ett nytt item
         public static Item CraftItem(string item1, string item2)
         {
             if ((item1 == "stick" && item2 == "matchbox") || (item2 == "stick" && item1 == "matchbox"))
@@ -23,7 +25,8 @@ namespace Victor_s_Haunted_Mansion
                 Item item = new Item("torch", "A fiercely burning torch.");
                 return item;
             }
-            return null;
+
+            return null; //Kombinationen genererar inte ett nytt item
         }
     }
 }
