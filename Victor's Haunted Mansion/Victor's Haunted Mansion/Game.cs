@@ -36,7 +36,7 @@ namespace Victor_s_Haunted_Mansion
             LoadRooms();
         }
 
-        public void LoadRooms()
+        private void LoadRooms()
         {
             //Start room
             Room room = new Room("The room is dark and enclosed with filth and grime on the walls.", false);
@@ -148,201 +148,68 @@ namespace Victor_s_Haunted_Mansion
                 string[] commands = instruction.Split(' '); //instruktionerna ord för ord
                 Console.WriteLine(); //för layout
 
-                //Switch-case sats som kollar vilket kommando som anropats, kommandot är alltid första ordet användaren skrivit in.
+                //Switch-case sats som kollar vilket kommando som anropas, kommandot är alltid det första ordet användaren skrivit in.
                 switch (commands[0])
                 {
                     case "go":
-                        if (commands.Length == 2 && (commands[1] == "west" || commands[1] == "east" ||
-                            commands[1] == "north" || commands[1] == "south"))
-                        {
-                            //Försöker flytta spelaren i rummet. Retunerar true om det nya rummet är en endpoint
-                            playing = !TryMove(commands[1]);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Are you drunk? You need to specify a correct direction.");
-                        }
+                        //Försök flytta player till ett nytt rum
+                        playing = !Go(commands); //Om spelet ska fortsätta efter go kommando utförts, GO() retunerar true om enpoint nåtts
                         break;
                     case "use":
-                        //för att använda ett item på korrekt sätt så behöver minst 4 ord anges
-                        if (commands.Length >= 4 && commands[2] == "on")
-                        {
-                            //om det är mer än 4ord, gör så att sista fjärde kommandot består av ett sammansatt ord
-                            if (commands.Length > 4)
-                            {
-                                for (int i = 4; i < commands.Length; i++)
-                                {
-                                    commands[3] = commands[3] + " " + commands[i];
-                                }
-                            }
-
-                            //försök att få angivet item från spelaren
-                            Item item = player.GetItem(commands[1]);
-
-                            //om item hittades i player
-                            if (item != null)
-                            {
-                                bool success = false; //flaggar om use har lyckats
-
-                                //försök att använda item på exit
-                                success = rooms[player.InRoom].UseItemOnExit(item, commands[3]);
-
-                                if (success)
-                                {
-                                    Console.WriteLine("You open the " + commands[3]);
-                                }
-                                else
-                                {
-                                    //om inte use lyckats på exit, försök kombinera två items
-                                    success = player.CombinedItems(commands[1], commands[3]);
-
-                                    if (success)
-                                    {
-                                        Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name);
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("The combination does not work.");
-                                    }
-                                }
-                            }
-                            //om item inte hittats i player
-                            else
-                            {
-                                Console.WriteLine("You don't have that item");
-                            }
-                        }
-                        //om use användes på helt fel sätt
-                        else
-                        {
-                            ErrorMessage();
-                        }
+                        //Försök att använda item/items
+                        Use(commands);
                         break;
                     case "get":
-                        if (commands.Length == 2)
-                        {
-                            //försök att ta ett item från det rummet player befinner sig i
-                            Item item = rooms[player.InRoom].GetItem(commands[1]);
-
-                            //om ett item hittats lägg till det i player
-                            if (item != null)
-                            {
-                                player.AddItem(item);
-                                Console.WriteLine("You picked up a " + item.Name + ".");
-                            }
-                            //annars om rummet innehåller textsträngen som efterfrågas
-                            else if (rooms[player.InRoom].GetDescription().Contains(commands[1]))
-                            {
-                                Console.WriteLine("You cannot pick up the " + commands[1]);
-                            }
-                            else
-                            {
-                                Console.WriteLine("There is no " + commands[1] + " in the room.");
-                            }
-                        }
-                        else
-                        {
-                            ErrorMessage();
-                        }
+                        //Försök att ta ett item
+                        Get(commands);
                         break;
                     case "drop":
-                        if (commands.Length == 2)
-                        {
-                            //ta ett item från player
-                            Item item = player.DropItem(commands[1]);
-
-                            //om item fanns, lägg till i rummet player befinner sig i
-                            if (item != null)
-                            {
-                                rooms[player.InRoom].AddItem(item);
-                                Console.WriteLine("You dropped " + item.Name + ".");
-                            }
-                            else
-                            {
-                                Console.WriteLine("There is no " + commands[1] + " in your inventory.");
-                            }
-                        }
-                        else
-                        {
-                            ErrorMessage();
-                        }
+                        //Försök att droppa ett item
+                        Drop(commands);
                         break;
                     case "look":
-                        if (commands.Length == 1)
-                        {
-                            //få beskrivning av rummet
-                            Console.WriteLine(rooms[player.InRoom].GetDescription());
-                        }
-                        else
-                        {
-                            ErrorMessage();
-                        }
+                        //Försök att kolla runt i rummet
+                        Look(commands);
                         break;
                     case "inspect":
-                        //inspect är alltid minst två ord långt
-                        if (commands.Length >= 2)
-                        {
-                            //om mer än två ord används, lägg till dem i andra platsen i commands
-                            if (commands.Length > 2)
-                            {
-                                for (int i = 2; i < commands.Length; i++)
-                                {
-                                    commands[1] = commands[1] + " " + commands[i];
-                                }
-                            }
-
-                            //Begär att få information om item från players inventory
-                            string info;
-                            info = player.InspectInventory(commands[1]);
-
-                            //om item inte fanns i player
-                            if (info == null)
-                            {
-                                //begär att få information om itemet i rummet
-                                info = rooms[player.InRoom].InspectRoom(commands[1]);
-                            }
-
-                            //om rummet gav info om item
-                            if (info != null)
-                            {
-                                Console.WriteLine(info);
-                            }
-                            else //item kunde inte hittas i rummet eller i player
-                            {
-                                ErrorMessage();
-                            }
-                        }
-                        else
-                        {
-                            ErrorMessage();
-                        }
+                        //Försök att inspektera item eller exit
+                        Inspect(commands);
                         break;
                     case "inventory":
-                        if (commands.Length == 1)
-                        {
-                            //skriv ut vad player har i inventory
-                            Console.WriteLine(player.InventoryPrint());
-                        }
-                        else
-                        {
-                            ErrorMessage();
-                        }
+                        //Försök kolla på players inventory
+                        Inventory(commands);
                         break;
                     case "help":
-                        if (commands.Length == 1)
-                        {
-                            Console.WriteLine("Commands: \ngo <direction>\nuse <item>\nuse <item> on <item/exit>\nget <item>\ndrop <item>\nlook\ninspect <item/exit>\ninventory");
-                        }
+                        //Försök be om hjälp
+                        Help(commands);
                         break;
                     default:
+                        //Kommandot finns inte, skicka felmedelande
                         ErrorMessage();
                         break;
                 }
             }
         }
 
+        //När go-kommandot anropas
+        private bool Go(string[] commands)
+        {
+            //Om kommandot skrivits in på rätt sätt
+            if (commands.Length == 2 && (commands[1] == "west" || commands[1] == "east" ||
+                                         commands[1] == "north" || commands[1] == "south"))
+            {
+                //Försöker flytta spelaren i rummet. 
+                return TryMove(commands[1]); //Try move retunerar true om nya rummet är en endpoint, annars false
+            }
+
+            //Kommandot skrevs in på fel sätts
+            Console.WriteLine("Are you drunk? You need to specify a correct direction.");
+
+            return false; //Retunera att rum inte är endpoint
+        }
+
         //Försök att flytta player, retunerar true om spelaren kommit till en endpoint
-        public bool TryMove(string direction)
+        private bool TryMove(string direction)
         {
             //försöker flytta player, metoden retunerar vilket rum player ska gå till
             //och retunerar -1 om player inte kunde gå till ett nytt rum
@@ -361,7 +228,203 @@ namespace Victor_s_Haunted_Mansion
             return false;
         }
 
-        public void ErrorMessage()
+        //När use-kommandot anrpoas
+        private void Use(string[] commands)
+        {
+            //för att använda ett item på korrekt sätt så behöver minst 4 ord anges
+            if (commands.Length >= 4 && commands[2] == "on")
+            {
+                //om det är mer än 4ord, gör så att sista fjärde kommandot består av ett sammansatt ord
+                if (commands.Length > 4)
+                {
+                    for (int i = 4; i < commands.Length; i++)
+                    {
+                        commands[3] = commands[3] + " " + commands[i];
+                    }
+                }
+
+                //försök att få angivet item från spelaren
+                Item item = player.GetItem(commands[1]);
+
+                //om item hittades i player
+                if (item != null)
+                {
+                    //försök att använda item på exit
+                    bool success = rooms[player.InRoom].UseItemOnExit(item, commands[3]); //flaggar true om use har lyckats
+
+                    if (success)
+                    {
+                        Console.WriteLine("You open the " + commands[3]);
+                    }
+                    else
+                    {
+                        //om inte use lyckats på exit, försök kombinera två items
+                        success = player.CombinedItems(commands[1], commands[3]);
+
+                        if (success)
+                        {
+                            Console.WriteLine("You crafted a " + Item.CraftItem(commands[1], commands[3]).Name);
+                        }
+                        else
+                        {
+                            Console.WriteLine("The combination does not work.");
+                        }
+                    }
+                }
+                //om item inte hittats i player
+                else
+                {
+                    Console.WriteLine("You don't have that item");
+                }
+            }
+            //om use-kommandot användes på helt fel sätt
+            else
+            {
+                ErrorMessage();
+            }
+        }
+
+        //När get-kommandot anrpoas
+        private void Get(string[] commands)
+        {
+            if (commands.Length == 2)
+            {
+                //försök att ta ett item från det rummet player befinner sig i
+                Item item = rooms[player.InRoom].GetItem(commands[1]);
+
+                //om ett item hittats lägg till det i player
+                if (item != null)
+                {
+                    player.AddItem(item);
+                    Console.WriteLine("You picked up a " + item.Name + ".");
+                }
+                //annars om rummet innehåller textsträngen som efterfrågas
+                else if (rooms[player.InRoom].GetDescription().Contains(commands[1]))
+                {
+                    Console.WriteLine("You cannot pick up the " + commands[1]);
+                }
+                else
+                {
+                    Console.WriteLine("There is no " + commands[1] + " in the room.");
+                }
+            }
+            else
+            {
+                ErrorMessage();
+            }
+        }
+
+        //När drop-kommandot anrpoas
+        private void Drop(string[] commands)
+        {
+            if (commands.Length == 2)
+            {
+                //ta ett item från player
+                Item item = player.DropItem(commands[1]);
+
+                //om item fanns, lägg till i rummet player befinner sig i
+                if (item != null)
+                {
+                    rooms[player.InRoom].AddItem(item);
+                    Console.WriteLine("You dropped " + item.Name + ".");
+                }
+                else
+                {
+                    Console.WriteLine("There is no " + commands[1] + " in your inventory.");
+                }
+            }
+            else
+            {
+                ErrorMessage();
+            }
+        }
+
+        //När look-kommandot anrpoas
+        private void Look(string[] commands)
+        {
+            if (commands.Length == 1)
+            {
+                //få beskrivning av rummet
+                Console.WriteLine(rooms[player.InRoom].GetDescription());
+            }
+            else
+            {
+                ErrorMessage();
+            }
+        }
+
+        //När inspect-kommandot anrpoas
+        private void Inspect(string[] commands)
+        {
+            //inspect är alltid minst två ord långt
+            if (commands.Length >= 2)
+            {
+                //om mer än två ord används, lägg till dem i andra platsen i commands
+                if (commands.Length > 2)
+                {
+                    for (int i = 2; i < commands.Length; i++)
+                    {
+                        commands[1] = commands[1] + " " + commands[i];
+                    }
+                }
+
+                //Begär att få information om item från players inventory
+                string info;
+                info = player.InspectInventory(commands[1]);
+
+                //om item inte fanns i player
+                if (info == null)
+                {
+                    //begär att få information om itemet i rummet
+                    info = rooms[player.InRoom].InspectRoom(commands[1]);
+                }
+
+                //om rummet gav info om item
+                if (info != null)
+                {
+                    Console.WriteLine(info);
+                }
+                else //item kunde inte hittas i rummet eller i player
+                {
+                    ErrorMessage();
+                }
+            }
+            else
+            {
+                ErrorMessage();
+            }
+        }
+
+        //När inventory-kommandot anrpoas
+        private void Inventory(string[] commands)
+        {
+            if (commands.Length == 1)
+            {
+                //skriv ut vad player har i inventory
+                Console.WriteLine(player.InventoryPrint());
+            }
+            else
+            {
+                ErrorMessage();
+            }
+        }
+
+        //När help-kommandot anrpoas
+        private void Help(string[] commands)
+        {
+            if (commands.Length == 1)
+            {
+                Console.WriteLine(
+                    "Commands: \ngo <direction>\nuse <item>\nuse <item> on <item/exit>\nget <item>\ndrop <item>\nlook\ninspect <item/exit>\ninventory");
+            }
+            else
+            {
+                ErrorMessage();
+            }
+        }
+
+        //Standard felmedelande när input kan tolkas
+        private void ErrorMessage()
         {
             Console.WriteLine("Could not understand instructions.");
         }
