@@ -67,7 +67,7 @@ namespace Victor_s_Haunted_Mansion
             rooms[2] = room;
 
             //Room 3
-            room = new Room(" This is an enormous room, probably used as a dining room a long time ago. The walls are filled with strange paintings of annimals wearing human clothes.", false);
+            room = new Room("This is an enormous room, probably used as a dining room a long time ago. The walls are filled with strange paintings of annimals wearing human clothes.", false);
             exit = new Exit("staircase", 4, false, "", "You see a staircase leading to an attic.", "");
             room.AddExit(exit, "east");
             exit = new Exit("broken door", 5, true, "The doorknob is missing. The door looks like it is about to break.",
@@ -110,7 +110,7 @@ namespace Victor_s_Haunted_Mansion
             rooms[6] = room;
 
             //Room 7
-            room = new Room("You crawl through a small dark passage. Suddenly there is light. You can feel a fresh spring breeze nn your sweaty face. " +
+            room = new Room("You crawl through a small dark passage. Suddenly there is light. You can feel a fresh spring breeze on your sweaty face. " +
                 "\nYou run towards freedom. Congratulations " + player.Name + " you survived.", true);
             rooms[7] = room;
 
