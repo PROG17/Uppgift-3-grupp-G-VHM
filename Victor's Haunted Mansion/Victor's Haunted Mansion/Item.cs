@@ -20,7 +20,7 @@ namespace Victor_s_Haunted_Mansion
         //Försök att skapa ett nytt item
         public static Item CraftItem(string item1, string item2)
         {
-            if ((item1 == "stick" && item2 == "matchbox") || (item2 == "stick" && item1 == "matchbox"))
+            if (item1 == "matchbox" && item2 == "stick")
             {
                 Item item = new Item("torch", "A fiercely burning torch.");
                 return item;

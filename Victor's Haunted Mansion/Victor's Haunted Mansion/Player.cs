@@ -64,11 +64,11 @@ namespace Victor_s_Haunted_Mansion
                 //Försök att skapa nytt item
                 Item item = Item.CraftItem(item1, item2);
 
-                //Om nytt itemskapades
+                //Om nytt item skapades
                 if (item != null)
                 {
                     //Ta bort använda item
-                    DropItem(item1);
+                    //DropItem(item1);
                     DropItem(item2);
 
                     //Och lägg till det nya
